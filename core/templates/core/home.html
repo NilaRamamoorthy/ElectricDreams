@@ -127,47 +127,39 @@
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-/*  */
+
 @media (max-width: 768px) {
+  section.position-relative .text-white.py-5.px-3 {
+    top: 70% !important;  /* instead of 300px */
+    transition: top 0.3s ease;
+  }
 
-section.position-relative .text-white.py-5.px-3 {
-  top: 300px !important;  /* was 420px, moved up */
-  transition: top 0.3s ease;
+  .services {
+    margin-top: 220px !important;
+  }
 }
 
-.services {
-  margin-top: 220px !important; /* was 50px, moved down */
-}
-}
 
 </style>
 
 <section class="position-relative text-center my-5">
     <!-- Blue cloud background -->
     <div class="position-relative">
-        <img src="{% static 'images/cloud.webp' %}" alt="Cloud Background" class="img-fluid w-100"
-            style="max-height: 500px; object-fit: contain;">
-          
-        <!-- Employees image centered over cloud -->
-        <div class="position-absolute top-50 start-50 translate-middle">
-            <img src="{% static 'images/Employee.png' %}" alt="Employees" class="img-fluid" style="max-height: 350px;">
-        </div>
+    <img src="{% static 'images/cloud.webp' %}" alt="Cloud Background" class="img-fluid w-100" style="max-height: 500px; object-fit: contain;">
+
+    <!-- Employees image -->
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <img src="{% static 'images/Employee.png' %}" alt="Employees" class="img-fluid" style="max-height: 350px;">
     </div>
 
-    <!-- Overlay text section -->
-    <div class="" style="margin-top: -50px;">
-        <div class="text-white py-5 px-3 shadow-lg position-absolute  start-50 translate-middle"
-            style="width: 90%; border-radius: 5px; top: 420px; background-color: rgba(0, 0, 0,0.8);">
-            <h5 class="fw-bold" style="color: #E25C26;">
-                Your Trusted Experts for All Things Electrical
-            </h5>
-            <p class="mb-0">
-                From residential upgrades to large-scale commercial projects,
-                we deliver expert service, quality workmanship,
-                and reliable results.
-            </p>
-        </div>
+    <!-- Overlay text -->
+    <div class="text-white py-5 px-3 shadow-lg position-absolute start-50 translate-middle" 
+         style="width: 90%; border-radius: 5px; top: 80%; background-color: rgba(0,0,0,0.8);">
+        <h5 class="fw-bold" style="color: #E25C26;">Your Trusted Experts for All Things Electrical</h5>
+        <p class="mb-0">From residential upgrades to large-scale commercial projects, we deliver expert service, quality workmanship, and reliable results.</p>
     </div>
+</div>
+
 </section>
 
 <!-- Our Services -->

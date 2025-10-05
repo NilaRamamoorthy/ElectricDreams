@@ -162,11 +162,12 @@ EMAIL_HOST_USER = "nilasibiraj@gmail.com"
 EMAIL_HOST_PASSWORD = "wynq xzcy rpzj xcif"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-STATIC_URL = 'static/'
-# STATICFILES_DIRS = [BASE_DIR / "core" / "static"]
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
