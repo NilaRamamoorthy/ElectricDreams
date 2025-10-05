@@ -26,13 +26,13 @@ class FAQ(models.Model):
     def __str__(self):
         return self.question
 
-# class Service(models.Model):
-#     title = models.CharField(max_length=200)
-#     description = models.TextField()
-#     image = models.ImageField(upload_to="services/")
+class Service(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.ImageField(upload_to="services/")
 
-#     def __str__(self):
-#         return self.title
+    def __str__(self):
+        return self.title
 
 
 
