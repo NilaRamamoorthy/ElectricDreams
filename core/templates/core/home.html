@@ -135,7 +135,19 @@
   }
 
   .services {
-    margin-top: 220px !important;
+    margin-top: 120px !important;
+  }
+  /* .employee-img{
+    max-width: 60vw;
+  } */
+  .overlay{
+    margin-top: 70px;
+    h5{
+        font-size: 20px;
+    }
+    p{
+        font-size: 13px;
+    }
   }
 }
 
@@ -148,13 +160,13 @@
     <img src="{{ homepage_images.get_cloud_image_url }}" alt="Cloud Background" class="img-fluid w-100" style="max-height: 500px; object-fit: contain;">
 
     <!-- Employees image -->
-    <div class="position-absolute top-50 start-50 translate-middle">
-        <img src="{{ homepage_images.get_electricians_image_url }}" alt="Employees" class="img-fluid" style="max-height: 350px;">
+    <div class="position-absolute top-50 start-50 translate-middle employee-img">
+        <img src="{{ homepage_images.get_electricians_image_url }}" alt="Employees" class="img-fluid" style="max-height: 350px; max-width: 70vw;">
     </div>
 
     <!-- Overlay text -->
-    <div class="text-white py-5 px-3 shadow-lg position-absolute start-50 translate-middle" 
-         style="width: 90%; border-radius: 5px; top: 80%; background-color: rgba(0,0,0,0.8);">
+    <div class="text-white py-5 px-3 shadow-lg position-absolute start-50 translate-middle overlay" 
+         style="width: 90%; border-radius: 5px; top: 85%; background-color: rgba(0,0,0,0.8);">
         <h5 class="fw-bold" style="color: #E25C26;">Your Trusted Experts for All Things Electrical</h5>
         <p class="mb-0">From residential upgrades to large-scale commercial projects, we deliver expert service, quality workmanship, and reliable results.</p>
     </div>
