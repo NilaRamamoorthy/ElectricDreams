@@ -1,0 +1,35 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title fw-bold">Cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    {% if cart_items %}
+      {% for item in cart_items %}
+        <div class="border-bottom pb-2 mb-2">
+          <h6>{{ item.service.name }}</h6>
+          <div class="d-flex align-items-center justify-content-between">
+            
+            <div>
+                <span>Qty:</span>
+              <button class="btn btn-sm btn-light decrease-btn" data-id="{{ item.id }}">−</button>
+              <span id="qty-{{ item.id }}" class="mx-2">{{ item.quantity }}</span>
+              <button class="btn btn-sm btn-light increase-btn" data-id="{{ item.id }}">+</button>
+            </div>
+            <button class="btn btn-sm border-0 remove-btn" data-id="{{ item.id }}">×</button>
+          </div>
+          <div class="text-end">
+    
+    <div>Amount :₹<span id="price-{{ item.id }}">{{ item.total_price }}</span></div>
+  </div>
+        </div>
+      {% endfor %}
+      <div class="text-center my-3">
+        <h6>Total: ₹<span id="grandTotal">{{ cart_total }}</span></h6>
+        <a href="{% url 'cart:checkout' %}" class="btn btn-lg w-100 fw-bold" style="background:#E25C26; color:white; border-radius:25px;">Book now</a>
+      </div>
+    {% else %}
+      <p class="text-muted text-center">Your cart is empty</p>
+    {% endif %}
+  </div>
+</div>

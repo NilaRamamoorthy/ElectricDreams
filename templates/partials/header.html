@@ -1,0 +1,134 @@
+<header>
+    <!-- Top Bar -->
+    <div class="d-flex align-items-center justify-content-between px-4 bg-white border-bottom">
+
+        <!-- Logo -->
+        <div>
+            {% if site_settings.logo %}
+            <img src="{{ site_settings.logo.url }}" class="mt-0" alt="Logo" style="height:100px;">
+            <p class="text-center" style="color:#E25C26; font-size: 12px; margin-top: -15px;">{{ site_settings.site_name}}</p>
+            {% endif %}
+        </div>
+
+        <!-- Call + Book Now -->
+        <div>
+            <a href="tel:{{ site_settings.phone }}" class="btn btn-number text-white rounded-pill px-4 me-2"
+                style="background:#E25C26; height: 40px;">
+                Call ({{ site_settings.phone }})
+            </a>
+            <a href="{% if default_category %}{% url 'services:category_detail' default_category.pk %}{% else %}#{% endif %}" class="btn rounded-pill btn-book px-4" style="border:2px solid #E25C26; color:#E25C26;">
+                Book Now
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" style="background:#E25C26;">
+        <div class="container-fluid py-3">
+
+            <!-- Search bar -->
+           <!-- Search bar -->
+<form class="d-flex me-4 flex-grow-1 position-relative" role="search" style="max-width:400px;">
+  <div class="input-group">
+    <span class="input-group-text bg-white border-0 rounded-start-pill">🔍</span>
+    <input id="searchInput" class="form-control border-0 rounded-end-pill" type="search"
+           placeholder="Search electricians..." aria-label="Search" autocomplete="off">
+  </div>
+
+  <!-- Suggestion dropdown -->
+  <ul id="searchResults"
+      class="list-group position-absolute mt-2 w-100 shadow-sm"
+      style="z-index: 1050; display:none;">
+  </ul>
+</form>
+
+
+            <!-- Menu -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="mainNav">
+                <ul class="navbar-nav ps-3 mb-2 mb-lg-0">
+                    <li class="nav-item ms-3"><a class="nav-link text-white" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item dropdown ms-3 position-static d-flex align-items-center">
+                        <!-- Services link (default category redirect) -->
+                        <a class="nav-link text-white"
+                            href="{% if default_category %}{% url 'services:category_detail' default_category.pk %}{% else %}#{% endif %}">
+                            Services
+                        </a>
+
+                        <!-- Caret dropdown toggle (Font Awesome) -->
+                        <a class="nav-link text-white px-1" href="" id="servicesDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu w-100 border-0 m-0 rounded-0" aria-labelledby="servicesDropdown"
+                            style="background-color: #E25C26;">
+                            <div class="container-fluid">
+                                <div class="d-flex text-white py-4">
+                                    <!-- Dynamic categories -->
+                                    {% for category in categories %}
+                                    <div class="col-md-4">
+                                        <h6 class="fw-bold">
+                                            <a href="{% url 'services:category_detail' category.pk %}"
+                                                class="text-white text-decoration-none">
+                                                {{ category.name }}
+                                            </a>
+                                        </h6>
+                                        <ul class="list-unstyled">
+                                            {% for sub in category.subcategories.all %}
+                                            <li>
+                                                <a href="#" class="text-white text-decoration-none">
+                                                    {{ sub.title }}
+                                                </a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endfor %}
+
+                                    <!-- Static column -->
+                                    <div class="col-md-4 text-white px-4">
+                                        <p class="fw-bold">Why Choose Us?</p>
+                                        <p class="mb-0">Trusted since 2015, we provide high-quality workmanship,
+                                            competitive pricing, and outstanding customer service.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item ms-3"><a class="nav-link text-white"
+                            href="{% url 'emergency_electrician' %}">Emergency Electrician</a></li>
+                    <li class="nav-item ms-3"><a class="nav-link text-white" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item ms-3"><a class="nav-link text-white" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item ms-3"><a class="nav-link text-white"
+                            href="{% url 'services:areas_we_serve' %}">Areas We Service</a></li>
+                    <li class="nav-item ms-3"><a class="nav-link text-white" href="{% url 'login' %}">Account</a></li>
+                
+
+                   
+                  <li class="nav-item ms-3 position-relative">
+  <a class="nav-link text-white" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+    Cart
+    {% if cart_count %}
+    <span class="badge position-absolute rounded-pill bg-white ms-3"
+          style="color: #E25C26; top: 0; left: 21px; font-size: 9px;">
+      {{ cart_count }}
+    </span>
+    {% endif %}
+  </a>
+</li>
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% include 'cart/offcanvas.html' %}
+
+</header>

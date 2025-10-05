@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .btn-warning{
+        background-color: #CD3A00;
+        color: white;
+        border: none;
+    }
+    .btn-warning:hover{
+        background-color: white;
+        color: #000;
+        border: 1px solid black;
+    }
+
+
+
+
+    #contact-form label {
+  font-weight: 600;
+  color: black;
+  display: block;
+  margin-bottom: 4px;
+}
+
+#contact-form input,
+#contact-form select,
+#contact-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  color: #000;
+}
+
+#contact-form input::placeholder,
+#contact-form textarea::placeholder {
+  color: #777;
+}
+
+#contact-form .btn {
+  background: #E25C26 !important;
+  color: #fff !important;
+  font-weight: bold;
+  border-radius: 25px;
+  padding: 10px 0;
+  transition: 0.3s ease;
+}
+
+#contact-form .btn:hover {
+  background: #c84b1d !important;
+}
+
+#contact-form {
+  border-radius: 20px;
+}
+
+</style>
+<div style="height:70vh; overflow:hidden; display:flex; justify-content:center;">
+    <img src="{{ page_content.banner_image.url }}" 
+         alt="Emergency Electrician" 
+         class="w-100" 
+         style="object-fit:cover; height:100%;">
+</div>
+
+<div class="container my-5">
+    <div class="row align-items-center">
+        <!-- Left Section -->
+        <div class="col-md-7">
+            <!-- Show success message -->
+            {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <h3>Professional Emergency Electrician - Fast & Reliable</h3>
+            <p>24-hour Electrician in Electric Dreams. Call Our Professional Electricians Now To Get Help Fast</p>
+
+            <p style="color:orange; font-weight:bold;">
+                ★★★★★ <br>
+                Over 215 google reviews
+            </p>
+<div class="d-flex justify-content-between align-items-center">
+            <img src="{{ page_content.small_image.url }}" alt="Emergency 24/7" class="img-fluid"
+                style="max-width:200px;">
+           
+              <div class="">
+      <a href="tel:{{ site_settings.phone }}" 
+         class="btn text-white fw-bold px-4 py-2 rounded-pill" style="background-color: #CD3A00;">
+        Call {{ site_settings.phone }}
+      </a>
+    </div>
+        </div>
+        </div>
+
+        <!-- Right Section -->
+      <div class="col-md-5">
+  <div class="p-4 rounded-4 shadow" id="contact-form" style="background:#2784d5; color:white;">
+    <h5 class="fw-bold mb-2">Request a call back</h5>
+    <p class="mb-4">Fill-in your details below and we will get back to you within 30 minutes or less!</p>
+
+    <form method="post" class="callback-form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      
+      <div class="mb-3">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.mobile.label_tag }}
+        {{ form.mobile }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.services.label_tag }}
+        {{ form.services }}
+      </div>
+
+      <button type="submit" class="btn w-100 fw-bold" 
+              style="background:#E25C26; color:white; border-radius:30px;">
+        Send&nbsp;Message
+      </button>
+    </form>
+  </div>
+</div>
+
+    </div>
+</div>
+
+
+<!-- Why Choose Our Electrician Section -->
+<div class="container my-5">
+  <h3 class="mb-4">Why choose our electrician?</h3>
+  <div class="d-flex gap-3">
+    <div class="text-center">
+      <div class="p-3 h-100 w-100" style="border-radius: 20px; border: 2px solid #CD3A00">
+        <i class="bi bi-award" style="font-size:2rem; color:#CD3A00;"></i>
+        <p class="mt-2">Lifetime Workmanship Warranty</p>
+      </div>
+    </div>
+    <div class="text-center" style="border-radius: 20px; border: 2px solid #CD3A00">
+      <div class="p-3 h-100 w-100">
+        <i class="bi bi-cash-coin" style="font-size:2rem; color:#CD3A00;"></i>
+        <p class="mt-2">Money Back Guarantee</p>
+      </div>
+    </div>
+    <div class="text-center">
+      <div class="p-3 h-100 w-100" style="border-radius: 20px; border: 2px solid #CD3A00">
+        <i class="bi bi-clock-history" style="font-size:2rem; color:#CD3A00;"></i>
+        <p class="mt-2">24/7 Emergency Service</p>
+      </div>
+    </div>
+    <div class="text-center">
+      <div class="p-3 h-100 w-100" style="border-radius: 20px; border: 2px solid #CD3A00">
+        <i class="bi bi-star" style="font-size:2rem; color:#CD3A00;"></i>
+        <p class="mt-2">190+ 5-Star Customer Reviews</p>
+      </div>
+    </div>
+    <div class="text-center">
+      <div class=" p-3 h-100 w-100" style="border-radius: 20px; border: 2px solid #CD3A00">
+        <i class="bi bi-trophy" style="font-size:2rem; color:#CD3A00;"></i>
+        <p class="mt-2">Awarded For Service Excellence</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quality Workmanship Section -->
+<div class="container-fluid py-3 mb-5" style="background:#1664a8; color:white;">
+  <div class="row align-items-center">
+    <div class="col-md-7 px-5">
+      <h4 class="fw-bold mb-3">Quality Workmanship</h4>
+      <p>
+        At electrical dreams, we understand that electrical emergencies can happen at any time. Whether it’s a power outage, faulty wiring, sparking outlets, or an electrical hazard, our emergency electricians are ready to respond quickly to restore safety and functionality to your home or business.
+      </p>
+      <p>
+        When you call us for an emergency electrical service, our licensed electricians will promptly assess the situation, identify the cause, and provide fast, effective repairs. We follow Australian safety standards and use high-quality equipment to resolve issues safely, preventing further risks or damage.
+      </p>
+      <p>
+        Our lifetime workmanship warranty reflects our confidence in the reliability of our services. If you encounter electrical problems related to our repairs, we will be there to resolve them efficiently and professionally. Your safety is our top priority.
+      </p>
+      <p>
+        Choose Adelaide Urban Electrical for reliable emergency electrical services and get the help you need—day or night. With our expert team, you can have peace of mind knowing your electrical issues will be resolved quickly and safely.
+      </p>
+      <div class="d-flex justify-content-between gap-3 mt-4">
+        <a href="tel:+911234567890" class="btn btn-warning rounded-pill px-4">Call Now</a>
+        <a href="#contact-form" class="btn btn-warning rounded-pill px-4">Send a Message</a>
+      </div>
+    </div>
+    <div class="col-md-5 text-center">
+      <img src="{{ page_content.workmanship_image.url }}" alt="Workmanship" class="img-fluid rounded shadow">
+    </div>
+  </div>
+</div>
+
+
+<!-- Get in touch -->
+<div class="container-fluid py-4 mb-5" style="background-color:#E25C26; border-radius:20px;">
+  <div class="row align-items-center justify-content-between px-4">
+    <div class="col-md-8 text-center text-md-start">
+      <h3 class="text-white fw-bold mb-0">
+        Get in Touch with Electric Dreams <br> Electrical Today
+      </h3>
+    </div>
+    <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+      <a href="tel:{{ site_settings.phone }}" 
+         class="btn btn-light fw-bold px-4 py-2 rounded-pill">
+        Call {{ site_settings.phone }}
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- Signs You Need an Emergency Electrician Section -->
+<div class="container my-5">
+  <div class="p-5 rounded" style="background-color:#2e73ba; color:white;">
+    <h4 class="fw-bold text-center mb-4">Signs you need an emergency electrician</h4>
+    <p>
+      Many signs indicate when it’s time to call a 24 hour electrician for help with your electrical problems. 
+      Here’s a quick list of what to look for:
+    </p>
+    <ul class="mt-3">
+      <li class="mb-3">
+        <strong>Smoke coming out of your outlets —</strong> Smoke from power outlets can signify that the wiring 
+        in your home or business is faulty and needs to be replaced. If you don’t have an after-hours electrician 
+        on hand to inspect the problem, it could cause a fire. If you see smoke or hear crackling sounds from an 
+        outlet, turn off the power at the breaker box and call an expert.
+      </li>
+      <li class="mb-3">
+        <strong>Smell of burning electronics —</strong> When you suddenly smell burning electronics, something 
+        might be wrong with your electrical system. If the smell is strong and seems to be coming from more than 
+        one device in your home, it’s time to call an emergency electrician.
+      </li>
+      <li class="mb-3">
+        <strong>Sudden isolated loss of power —</strong> If there is a sudden loss of power over a small area 
+        or within one room of your home, this could be due to a short circuit or blown fuse, or it could result 
+        from faulty wiring that needs to be repaired immediately.
+      </li>
+      <li class="mb-3">
+        <strong>Circuit breaker keeps tripping or resetting —</strong> Circuit breakers are supposed to trip 
+        when they sense too much current, but if they trip too often, there might be something wrong with the 
+        wiring, or your breaker may be faulty.
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+{% endblock %}

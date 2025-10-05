@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .login-container {
+      max-width: 700px;
+      margin: 5% auto;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    .btn-orange {
+      background-color: #e35b1b;
+      color: white;
+    }
+    .divider {
+      border-left: 1px solid #ccc;
+      height: 100%;
+    }
+  </style>
+
+  <div class="login-container">
+
+    {% if already_logged_in %}
+      <h4 class="text-center mb-3">You are already logged in as <span class="text-success">{{ user.username }}</span></h4>
+      <div class="text-center">
+        <a href="{% url 'logout' %}" class="btn w-50" style="background-color: #e35b1b;">Logout</a>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary w-50 mt-2">Go to Home</a>
+      </div>
+
+    {% else %}
+      <h6 class="text-center mb-4 fw-bold">Sign In with email or mobile number</h6>
+      <div class="row">
+        <!-- Left: Phone Login -->
+        <div class="col-md-6 text-center">
+          <form method="POST" id="phoneForm">
+            {% csrf_token %}
+            <div class="mb-3 text-start">
+              <label class="form-label">Phone Number</label>
+              <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone number">
+            </div>
+            <button type="button" class="btn btn-orange w-50" id="verifyBtn">Verify</button>
+
+            <div id="phonePassSection" class="mt-3" style="display:none;">
+              <label class="form-label text-start w-100">Password</label>
+              <input type="password" name="phone_password" class="form-control mb-3" placeholder="Enter password">
+              <button type="submit" class="btn btn-orange w-50">Sign in</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-1 d-flex justify-content-center">
+          <div class="divider"></div>
+        </div>
+
+        <!-- Right: Email Login -->
+        <div class="col-md-5">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Email address</label>
+              <input type="email" name="email" class="form-control" placeholder="Email id">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" placeholder="10 digit">
+            </div>
+            <button type="submit" class="btn btn-orange w-50">Sign in</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="{% url 'register' %}" class="btn btn-outline-secondary">Register</a>
+      </div>
+    {% endif %}
+
+  </div>
+
+  <script>
+    document.getElementById('verifyBtn')?.addEventListener('click', function() {
+      const phone = document.getElementById('phone').value;
+      if (phone.trim() !== '') {
+        document.getElementById('phonePassSection').style.display = 'block';
+      } else {
+        alert('Please enter phone number first');
+      }
+    });
+  </script>
+{% endblock %}

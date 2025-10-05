@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .areas:hover{
+          background-color: #E25C26 !important;
+          color: white;
+    }
+</style>
+<div class="container my-5">
+    <h2 class="text-center fw-bold mb-3" style="color:#E25C26;">Areas we services</h2>
+    <p class="text-center mb-5">
+        Below are some areas we provide electrical services to. 
+        But, don’t worry if your area is not listed, we likely service your area too!
+    </p>
+
+    <div class="row">
+        {% for area in areas %}
+            <div class="col-md-4 col-sm-6 mb-3">
+                <div class="p-3 areas text-center" style="background-color: gainsboro;">
+                    {{ area.name }}
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No areas added yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container-fluid py-4 mb-5" style="background-color:#E25C26; border-radius:20px;">
+  <div class="row align-items-center justify-content-between px-4">
+    <div class="col-md-8 text-center text-md-start">
+      <h3 class="text-white fw-bold mb-0">
+        Get in Touch with Electric Dreams <br> Electrical Today
+      </h3>
+    </div>
+    <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+      <a href="tel:{{ site_settings.phone }}" 
+         class="btn btn-light fw-bold px-4 py-2 rounded-pill">
+        Call {{ site_settings.phone }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

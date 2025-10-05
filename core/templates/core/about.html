@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="fw-semibold" style="color: #E25C26;">{{ about_data.title }}</h2>
+    <p class="lead mb-5">{{ about_data.subtitle }}</p>
+    <!-- About Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            {% if about_data.image %}
+            <img src="{{ about_data.image.url }}" alt="{{ about_data.title }}" class="img-fluid rounded shadow w-100" style="max-height: 370px;">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <p class="mb-3">{{ about_data.description }}</p>
+            {% if about_data.certifications %}
+            <ul>
+                {% for line in about_data.certifications.splitlines %}
+                <p class="my-0 fw-semibold text-start">{{ line }}</p>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 order-md-2">
+            {% if service_data.image %}
+            <img src="{{ service_data.image.url }}" alt="{{ service_data.title }}" class="img-fluid rounded shadow w-100" style="max-height: 370px;">
+            {% endif %}
+        </div>
+        <div class="col-md-6 order-md-1">
+            <h4 class=" text-dark mb-5">{{ service_data.title }}</h4>
+            <p>{{ service_data.description }}</p>
+        </div>
+    </div>
+
+    <!-- Commitment Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            {% if commitment_data.image %}
+            <img src="{{ commitment_data.image.url }}" alt="{{ commitment_data.title }}"
+                class="img-fluid rounded shadow w-100" style="max-height: 370px;">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h4 class="text-dark mb-5">{{ commitment_data.title }}</h4>
+            <p>{{ commitment_data.description }}</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Get in touch -->
+<div class="container-fluid py-4 mb-5" style="background-color:#E25C26; border-radius:20px;">
+  <div class="row align-items-center justify-content-between px-4">
+    <div class="col-md-8 text-center text-md-start">
+      <h3 class="text-white fw-bold mb-0">
+        Get in Touch with Electric Dreams <br> Electrical Today
+      </h3>
+    </div>
+    <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+      <a href="tel:{{ site_settings.phone }}" 
+         class="btn btn-light fw-bold px-4 py-2 rounded-pill">
+        Call {{ site_settings.phone }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

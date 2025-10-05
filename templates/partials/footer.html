@@ -1,0 +1,59 @@
+<footer class="text-white py-5" style="background:#E25C26;">
+    <div class="container">
+        <div class="row">
+            <!-- Logo & Description -->
+            <div class="col-md-4 mb-4">
+                {% if site_settings.logo %}
+                    <img src="{{ site_settings.logo.url }}" alt="Logo" style="height:90px;">
+                    <p class="" style="color: white">{{ site_settings.site_name }}</p>
+                {% endif %}
+                <p class="mt-3">
+                    Voltaic Electrical provides expert residential, commercial, 
+                    and emergency electrical services across Perth.
+                </p>
+                <!-- Social icons -->
+                <a href="#" class="footer-icon me-3"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="footer-icon"><i class="bi bi-google"></i></a>
+            </div>
+
+            <!-- Services -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold">Services</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="footer-link">Lighting</a></li>
+                    <li><a href="#" class="footer-link">Private Power Poles</a></li>
+                    <li><a href="#" class="footer-link">Smoke Alarms</a></li>
+                    <li><a href="#" class="footer-link">EV Chargers</a></li>
+                    <li><a href="#" class="footer-link">Air Conditioning</a></li>
+                    <li><a href="#" class="footer-link">Thermographic Imaging</a></li>
+                    <li><a href="#" class="footer-link">View All</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="col-md-2 mb-4">
+                <h5 class="fw-bold">Company</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'about' %}" class="footer-link">About</a></li>
+                    <li><a href="#" class="footer-link">Service Areas</a></li>
+                    <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+                    <li><a href="#" class="footer-link">Reviews</a></li>
+                    <li><a href="#" class="footer-link">Resources</a></li>
+                    <li><a href="#" class="footer-link">Sitemap</a></li>
+                </ul>
+            </div>
+
+            <!-- Get in Touch -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold">Get in Touch</h5>
+                <p><i class="bi bi-geo-alt-fill me-2"></i> Location: Chennai</p>
+                <p><i class="bi bi-telephone-fill me-2"></i> 
+                    <a href="tel:{{ site_settings.phone }}" class="footer-link">{{ site_settings.phone }}</a>
+                </p>
+                <p><i class="bi bi-envelope-fill me-2"></i> 
+                    <a href="mailto:{{ site_settings.email }}" class="footer-link">{{ site_settings.email }}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

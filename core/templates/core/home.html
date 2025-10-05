@@ -1,0 +1,470 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    /* Our Services */
+    .services-slider {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .services-track {
+        display: flex;
+        gap: 1rem;
+        animation: scroll 25s linear infinite;
+    }
+
+    .service-card {
+        min-width: 300px;
+        max-width: 300px;
+        border-radius: 20px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    /* .services-track:hover {
+  animation-play-state: paused;
+} */
+
+
+    .services-slider {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .services-track {
+        display: flex;
+        gap: 20px;
+        animation: scroll 25s linear infinite;
+        width: max-content;
+    }
+
+    .service-card {
+        width: 320px;
+        border-radius: 20px;
+        overflow: hidden;
+        flex-shrink: 0;
+        color: white;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card img {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes scroll {
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+            transform: translateX(-50%);
+        }
+    }
+
+
+    /* 3 Step Process */
+
+    .process-card {
+        border: 3px solid #E25C26;
+        /* orange border */
+        border-radius: 8px;
+        padding: 30px 20px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: #fff;
+    }
+
+    .process-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .step-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    /* Trused Brands */
+    .brand-logo {
+        max-height: 80px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .brand-logo:hover {
+        transform: scale(1.1);
+    }
+
+/* Review */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+</style>
+
+<section class="position-relative text-center my-5">
+    <!-- Blue cloud background -->
+    <div class="position-relative">
+        <img src="{% static 'images/cloud.webp' %}" alt="Cloud Background" class="img-fluid w-100"
+            style="max-height: 500px; object-fit: contain;">
+          
+        <!-- Employees image centered over cloud -->
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <img src="{% static 'images/Employee.png' %}" alt="Employees" class="img-fluid" style="max-height: 350px;">
+        </div>
+    </div>
+
+    <!-- Overlay text section -->
+    <div class="" style="margin-top: -50px;">
+        <div class="text-white py-5 px-3 shadow-lg position-absolute  start-50 translate-middle"
+            style="width: 90%; border-radius: 5px; top: 420px; background-color: rgba(0, 0, 0,0.8);">
+            <h5 class="fw-bold" style="color: #E25C26;">
+                Your Trusted Experts for All Things Electrical
+            </h5>
+            <p class="mb-0">
+                From residential upgrades to large-scale commercial projects,
+                we deliver expert service, quality workmanship,
+                and reliable results.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Our Services -->
+<section class="services py-5 mt-5">
+    <div class="container-fluid">
+        <h2 class="text-center fw-bold mb-4">Our Services</h2>
+       <div class="services-slider">
+  <div class="services-track d-flex gap-4 flex-wrap justify-content-center">
+    
+    {% for sub in subcategories %}
+    <a href="{% url 'services:service_list' sub.id %}" 
+       class="text-decoration-none text-white">
+      <div class="card service-card h-100 text-white border-0"
+           style="width: 350px; border-radius: 20px; overflow: hidden; background-color:#0056B3;">
+        {% if sub.image %}
+        <img src="{{ sub.image.url }}" class="card-img p-3" alt="{{ sub.title }}"
+             style="height: 250px; object-fit: cover;">
+        {% else %}
+        <img src="{% static 'images/default-service.jpg' %}" class="card-img p-3" alt="No image"
+             style="height: 250px; object-fit: cover;">
+        {% endif %}
+        <div class="p-3"
+             style="background-color:#0056B3; border-top-left-radius: 0; border-top-right-radius: 0;">
+          <h5 class="fw-bold mb-2">{{ sub.title }}</h5>
+          <p class="mb-0">{{ sub.description|truncatewords:15 }}</p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+    
+    <!-- Duplicate for continuous scroll if needed -->
+    {% for sub in subcategories %}
+    <a href="{% url 'services:service_list' sub.id %}" 
+       class="text-decoration-none text-white">
+      <div class="card service-card text-white border-0"
+           style="width: 350px; border-radius: 20px; overflow: hidden; background-color:#0056B3;">
+        {% if sub.image %}
+        <img src="{{ sub.image.url }}" class="card-img p-3" alt="{{ sub.title }}"
+             style="height: 250px; object-fit: cover;">
+        {% else %}
+        <img src="{% static 'images/default-service.jpg' %}" class="card-img p-3" alt="No image"
+             style="height: 250px; object-fit: cover;">
+        {% endif %}
+        <div class="p-3"
+             style="background-color:#0056B3; border-top-left-radius: 0; border-top-right-radius: 0;">
+          <h5 class="fw-bold mb-2">{{ sub.title }}</h5>
+          <p class="mb-0">{{ sub.description|truncatewords:15 }}</p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+    
+  </div>
+</div>
+
+
+
+        <div class="text-center mt-4">
+            <a href="{% if default_category %}{% url 'services:category_detail' default_category.pk %}{% else %}#{% endif %}" class="btn px-4 py-2 fw-bold" style="background:#E25C26; color:#fff; border-radius:30px;">
+                View Services
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-5">
+    <div class="container-fluid" >
+        <!-- Heading -->
+        <h2 class="text-center mb-4 text-orange fw-bold">Why choose us?</h2>
+
+        <div class="row">
+            <!-- LEFT SIDE IMAGES -->
+            <div class="col-lg-6">
+                <div class="row">
+                    {% for image in why_choose_images %}
+                    <div class="col-6 g-0">
+                        <img src="{{ image.image.url }}" alt="Why Choose Us Image"
+                            class="img-fluid shadow-sm w-100 h-100 object-fit-cover">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE CONTENT -->
+            <div class="col-lg-6 text-white p-4 d-flex flex-column justify-content-center" style="background-color: #0056B3;">
+                <p class="mb-4">
+                    Our team is fully licensed and accredited, bringing extensive experience and
+                    recognised qualifications in electrical, solar, air conditioning, and more.
+                </p>
+
+                <div class="row g-3">
+                    <!-- Card 1 -->
+                    <div class="col-md-6">
+                        <div class="p-3 bg-white text-dark h-100 rounded shadow-sm">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-plug fs-1 text-dark p-2" style="border: 4px solid gray;"></i>
+                                <h4 class="fw-bold mt-2">50+</h4>
+                            </div>
+                            <p class="fw-semibold mb-1">Years of Industry Experience</p>
+                            <small>Combining decades of expertise to provide reliable, effective electrical
+                                solutions.</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="col-md-6">
+                        <div class="p-3 bg-white text-dark h-100 rounded shadow-sm">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-wrench fs-1 text-dark p-2" style="border: 4px solid gray;"></i>
+                                <h4 class="fw-bold mt-2">5000+</h4>
+                            </div>
+                            <p class="fw-semibold mb-1">Projects Completed</p>
+                            <small>Reflecting the trust businesses and home owners place in us for ongoing electrical
+                                services.</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="col-md-6">
+                        <div class="p-3 bg-white text-dark h-100 rounded shadow-sm">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-hand-thumbs-up fs-1 text-dark p-2" style="border: 4px solid gray;"></i>
+                                <h4 class="fw-bold mt-2">98%</h4>
+                            </div>
+                            <p class="fw-semibold mb-1">First-Time Fix Rate</p>
+                            <small>Proving our efficiency in diagnosing and resolving electrical issues on the first
+                                visit.</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="col-md-6">
+                        <div class="p-3 bg-white text-dark h-100 rounded shadow-sm">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-currency-dollar fs-1 text-dark p-2" style="border: 4px solid gray;"></i>
+                                <h4 class="fw-bold mt-2">10M</h4>
+                            </div>
+                            <p class="fw-semibold mb-1">Client Energy Savings</p>
+                            <small>Estimating the financial impact our solutions have had in reducing energy
+                                costs.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 3 Step Process -->
+
+<section class="process-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold">Our Proven Three Step Process</h2>
+        <div class="row text-center">
+
+            <!-- Step 1 -->
+            <div class="col-md-4">
+                <div class="process-card">
+                    <h3 class="step-number">1</h3>
+                    <h4 class="fw-bold">Consultation &amp; Assessment</h4>
+                    <p>
+                        We begin by understanding your specific needs and goals.
+                        Our experts conduct a thorough assessment to recommend
+                        the best electrical solutions tailored to your requirements.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-md-4">
+                <div class="process-card">
+                    <h3 class="step-number">2</h3>
+                    <h4 class="fw-bold">Detailed Quote</h4>
+                    <p>
+                        After assessing your needs, we provide a clear, detailed
+                        proposal outlining the recommended approach, estimated
+                        timelines, and costs, so you know exactly what to expect.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-md-4">
+                <div class="process-card">
+                    <h3 class="step-number">3</h3>
+                    <h4 class="fw-bold">Installation &amp; Support</h4>
+                    <p>
+                        Our certified team completes your project with precision
+                        and efficiency, keeping you informed every step of the way.
+                        After installation, we provide guidance and ongoing support.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- 🌟 Customer Reviews Section -->
+<section class="py-2" style="background-color:#0056B3;">
+  <div class="container text-center text-white">
+    <h2 class="fw-bold mb-2">What Our Happy Customers Are Saying</h2>
+    <p class="text-light mb-5">
+      Discover why our clients trust us to keep their homes and businesses spotless.
+    </p>
+
+    <div class="row justify-content-center">
+      {% if reviews %}
+        {% for review in reviews %}
+        <div class="col-md-3 mb-4">
+          <div class="card h-100 p-4 border-0 shadow-sm rounded-4" style="border-radius: 20px;">
+            <div class="text-warning mb-3">
+              {% for i in "12345"|make_list %}
+                {% if forloop.counter <= review.rating %}
+                  <i class="bi bi-star-fill"></i>
+                {% else %}
+                  <i class="bi bi-star"></i>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <p class="text-dark mb-4" style="min-height:100px;">
+              {{ review.comment|truncatewords:40 }}
+            </p>
+
+            <div class="d-flex align-items-center mt-auto">
+              <img src="{{ review.get_profile_image_url }}" 
+                   class="rounded-circle me-3" 
+                   alt="User" width="50" height="50"
+                   style="object-fit: cover;">
+              <div class="text-start">
+                <strong class="text-dark d-block">{{ review.user.first_name|default:review.user.username }}</strong>
+                <small class="text-dark fw-semibold">{{ review.service.name }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-center text-white">No reviews yet. Be the first to leave one!</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<!-- Trusted Brands we work with -->
+<section class="brands-section py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4" style="color:#E25C26;">Trusted Brands We Work With</h2>
+        <div class="row justify-content-center align-items-center">
+            {% for brand in brands %}
+            <div class="col-6 col-md-3 col-lg-2 mb-3">
+                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="img-fluid brand-logo">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- Get in Touch -->
+
+<div class="container-fluid py-4 mb-5" style="background-color:#E25C26; border-radius:20px;">
+    <div class="row align-items-center justify-content-between px-4">
+        <div class="col-md-8 text-center text-md-start">
+            <h3 class="text-white fw-bold mb-0">
+                Get in Touch with Electric Dreams <br> Electrical Today
+            </h3>
+        </div>
+        <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+            <a href="tel:{{ site_settings.phone }}" class="btn btn-light fw-bold px-4 py-2 rounded-pill">
+                Call {{ site_settings.phone }}
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section py-5">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-3">Frequently Asked Questions</h2>
+        <p class="text-center text-muted mb-4">
+            Everything you need to know about our services.
+        </p>
+
+        <div class="accordion" id="faqAccordion">
+            {% for faq in faqs %}
+            <div class="accordion-item mb-2 border-0 shadow-sm rounded">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                    <button class="accordion-button collapsed fw-semibold bg-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false"
+                        aria-controls="collapse{{ forloop.counter }}">
+                        {{ faq.question }}
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="background-color:#FFF3ED; color:#333;">
+                        {{ faq.answer }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

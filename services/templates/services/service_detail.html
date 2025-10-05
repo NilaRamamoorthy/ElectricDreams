@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+     .custom-btn {
+    background: #E25C26;
+    color: white;
+    border-radius: 25px;
+    border: 2px solid #E25C26;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .custom-btn:hover {
+    background: white;
+    color: black;
+    border: 2px solid black;
+  }
+  /* Review */
+  .reviews-section {
+  background-color: #FFF3ED;
+}
+
+.reviews-section .card {
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease;
+}
+
+.reviews-section .card:hover {
+  transform: translateY(-3px);
+}
+
+</style>
+<div class="container my-5">
+
+  <!-- Service Header -->
+  <h2 class="fw-bold mb-4">{{ service.category.title }}</h2>
+
+  <div class="card p-4 border rounded-3">
+    <div class="row align-items-center">
+      <!-- Image -->
+      <div class="col-md-3 text-center">
+        {% if service.image %}
+        <img src="{{ service.image.url }}" alt="{{ service.name }}" class="img-fluid" style="max-height:150px;">
+        {% endif %}
+      </div>
+
+      <!-- Details -->
+      <div class="col-md-6">
+        <h4 class="fw-bold">{{ service.name }}</h4>
+        <p class="mb-1">⭐ {{ service.rating }} <small>({{ service.num_reviews }} reviews)</small></p>
+        <p class="mb-1">₹{{ service.price }}</p>
+        <p class="mb-1">20 mins</p>
+        <p class="text-success">₹20 off 2nd item onwards</p>
+      </div>
+
+      <!-- Buttons -->
+     <div class="col-md-3 text-center">
+  <button class="btn btn-lg custom-btn mb-3"  onclick="addToCart({{ service.id }}, '{{ service.name }}')">Add to cart</button>
+  <a href="tel:+911234567890" class="btn btn-lg custom-btn">
+    Call (+91)1234567890
+  </a>
+</div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+<div class="row mt-4">
+    <!-- Our Process -->
+    <div class="col-md-6">
+        <div class="p-4 rounded text-white" style="background-color:#0056B3;">
+            <h4 class="fw-bold mb-4">Our Process</h4>
+
+            {% for step in process_steps %}
+            <div class="d-flex mb-3">
+                <div class="me-3 rounded-circle text-dark fw-bold d-flex align-items-center justify-content-center" 
+                     style="width:37px;height:37px; background-color: rgb(227, 224, 224);">
+                    {{ step.step_number }}
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">{{ step.title }}</h6>
+                    <p class="mb-0">{{ step.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Top Technicians -->
+    <div class="col-md-6 d-flex gap-3 p-4" style="background-color:#0056B3;">
+        <!-- Left Side: Highlights -->
+      <div class="col-md-6 text-white">
+        <h4 class="fw-bold mb-4">Top technicians</h4>
+        <ul class="list-unstyled">
+          {% for item in technician_highlights %}
+          <li class="mb-3 d-flex align-items-start">
+            <i class="bi {{ item.icon }} fs-5 me-3"></i>
+            <span class="fw-semibold">{{ item.title }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Right Side: Image -->
+      <div class="col-md-6 text-center">
+        {% if technician_section and technician_section.image %}
+          <img src="{{ technician_section.image.url }}" alt="Technician" class="img-fluid rounded shadow" style="min-width: 150px; height: 300px;">
+        {% endif %}
+      </div>
+    </div>
+</div>
+
+</div>
+
+<!-- FAQ -->
+<section class="faq-section py-5">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-3">Frequently Asked Questions</h2>
+        <p class="text-center text-muted mb-4">
+            Everything you need to know about our services.
+        </p>
+
+        <div class="accordion" id="faqAccordion">
+            {% for faq in faqs %}
+            <div class="accordion-item mb-2 border-0 shadow-sm rounded">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                    <button class="accordion-button collapsed fw-semibold bg-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false"
+                        aria-controls="collapse{{ forloop.counter }}">
+                        {{ faq.question }}
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="background-color:#FFF3ED; color:#333;">
+                        {{ faq.answer }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- Reviews Section -->
+<hr class="my-5">
+
+<section id="reviews" class="container my-5">
+  <h2 class="fw-bold text-center mb-4">What Our Happy Customers Are Saying</h2>
+
+  <div class="row justify-content-center">
+    {% if service.reviews.all %}
+      {% for review in service.reviews.all %}
+      <div class="col-md-3 mb-4">
+        <div class="card shadow-sm p-3 h-100 text-start border-0 rounded-4">
+        
+          <div class="text-warning mb-2">
+            {% for i in "12345"|make_list %}
+              {% if forloop.counter <= review.rating %}
+                <i class="bi bi-star-fill"></i>
+              {% else %}
+                <i class="bi bi-star"></i>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <p>{{ review.comment }}</p>
+          <div class="d-flex align-items-center mb-3">
+            <img src="{{ review.get_profile_image_url }}" alt="Profile"
+                 class="rounded-circle me-3" width="50" height="50"
+                 style="object-fit: cover;">
+            <div>
+              <strong>{{ review.user.username }}</strong><br>
+              <small class="text-muted">{{ review.created_at|date:"M d, Y" }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-center text-muted">Be the first to write a review!</p>
+    {% endif %}
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+      Add a Review
+    </button>
+  </div>
+</section>
+
+<!-- Review Modal -->
+<div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Add Your Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{% url 'services:add_review' service.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="rating" class="form-label">Rating</label>
+            <select name="rating" id="rating" class="form-select" required>
+              <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+              <option value="4">⭐⭐⭐⭐ (4)</option>
+              <option value="3">⭐⭐⭐ (3)</option>
+              <option value="2">⭐⭐ (2)</option>
+              <option value="1">⭐ (1)</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="comment" class="form-label">Your Review</label>
+            <textarea name="comment" id="comment" rows="3" class="form-control" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="profile_image" class="form-label">Profile Image (optional)</label>
+            <input type="file" name="profile_image" id="profile_image" class="form-control">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn custom-btn">Submit Review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

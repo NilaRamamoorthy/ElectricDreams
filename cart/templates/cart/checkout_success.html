@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container text-center my-5">
+  <div class="card shadow-sm p-5 mx-auto" style="max-width:600px;">
+    <h3 class="fw-bold text-success mb-3">✅ Payment Successful!</h3>
+    <p>Your booking has been confirmed.</p>
+
+    <hr>
+    <h5>Order Summary</h5>
+    <p><strong>Service Date:</strong> {{ order.service_date }}</p>
+    <p><strong>Total Paid:</strong> ₹{{ order.total_amount }}</p>
+
+    <p class="mt-4 text-muted">We’ve sent a confirmation email to <b>{{ order.email }}</b></p>
+    <a href="/" class="btn mt-3" style="background:#E25C26; color:white;">Back to Home</a>
+  </div>
+</div>
+{% endblock %}

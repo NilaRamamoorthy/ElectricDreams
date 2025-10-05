@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ site_settings.site_name }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Font Awsome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Search */
+        #searchResults {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#searchResults li:hover {
+  background-color: #FFF3ED;
+  cursor: pointer;
+}
+
+        .dropdown-menu {
+            border-radius: 0;
+            border: none;
+        }
+
+        .dropdown-menu h6 {
+            color: #E25C26;
+            /* orange heading */
+        }
+
+        /* Remove Bootstrap's default dropdown arrow */
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+        .bg-orange {
+            background-color: #E25C26;
+        }
+
+        .navbar .nav-link:hover {
+            transform: scaleY(1.2);
+            border-radius: 5px;
+        }
+
+        .btn-book {
+            background-color: white;
+
+
+        }
+
+        .btn-book:hover {
+            background-color: #E25C26;
+            color: white !important;
+        }
+
+
+        /* Search bar focus */
+        input[type="search"]:focus {
+            box-shadow: 0 0 5px #fff;
+            border-color: #E25C26;
+        }
+
+        /* Footer */
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #ffc107;
+            text-decoration: underline;
+        }
+
+        .footer-icon {
+            font-size: 1.5rem;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .footer-icon:hover {
+            color: #ffc107;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    {% include "partials/header.html" %}
+
+    <!-- Page Content -->
+    <main>
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include "partials/footer.html" %}
+
+
+<!-- Toast Container -->
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body fw-semibold">
+        Service added to cart!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery (optional but loaded for safety) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+// ✅ Helper: Get CSRF token
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+// ✅ Helper: Show toast
+function showToast(message, success = true) {
+  const toastEl = document.getElementById('cartToast');
+  toastEl.classList.remove('bg-success', 'bg-danger');
+  toastEl.classList.add(success ? 'bg-success' : 'bg-danger');
+  toastEl.querySelector('.toast-body').textContent = message;
+  new bootstrap.Toast(toastEl).show();
+}
+
+// ✅ Function: Bind +/− buttons
+function bindCartEvents() {
+  document.querySelectorAll('.increase-btn, .decrease-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      const action = this.classList.contains('increase-btn') ? 'increase' : 'decrease';
+
+      fetch(`/cart/update/${id}/?action=${action}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById(`qty-${id}`).textContent = data.quantity;
+          document.getElementById(`price-${id}`).textContent = data.total;
+          document.getElementById('grandTotal').textContent = data.grand_total;
+        })
+        .catch(err => console.error('Error updating cart:', err));
+    });
+  });
+}
+
+// ✅ Function: Bind remove buttons
+function bindRemoveEvents() {
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const itemId = this.dataset.id;
+      if (!confirm('Remove this item from cart?')) return;
+
+      fetch(`/cart/remove/${itemId}/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken, 'Accept': 'application/json' },
+        credentials: 'same-origin'
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // Remove item visually
+          this.closest('.border-bottom').remove();
+          // Update totals and badge
+          document.getElementById('grandTotal').textContent = data.grand_total;
+          const badge = document.querySelector('.nav-link .badge');
+          if (badge) badge.textContent = data.count;
+          showToast('Item removed from cart.');
+        }
+      })
+      .catch(err => console.error('Error removing item:', err));
+    });
+  });
+}
+
+// ✅ Function: Refresh offcanvas and rebind events
+function refreshCartOffcanvas() {
+  fetch('/cart/offcanvas/')
+    .then(res => res.text())
+    .then(html => {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const newBody = doc.querySelector('.offcanvas-body').innerHTML;
+      document.querySelector('#cartOffcanvas .offcanvas-body').innerHTML = newBody;
+
+      // Re-bind events after refresh
+      bindCartEvents();
+      bindRemoveEvents();
+    })
+    .catch(err => console.error('Error refreshing cart:', err));
+}
+
+// ✅ Function: Add to cart
+function addToCart(serviceId, serviceName) {
+  fetch(`/cart/add/${serviceId}/`, {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrftoken,
+      'Accept': 'application/json'
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showToast(`${serviceName} added to cart!`);
+      // Update badge
+      const badge = document.querySelector('.nav-link .badge');
+      if (badge) {
+        badge.textContent = data.count;
+      } else {
+        const link = document.querySelector('[data-bs-target="#cartOffcanvas"]');
+        if (link) {
+          const span = document.createElement('span');
+          span.className = 'badge position-absolute rounded-pill bg-white ms-3';
+          span.style = 'color: #E25C26; top: 0; left: 21px; font-size: 9px;';
+          span.textContent = data.count;
+          link.appendChild(span);
+        }
+      }
+      refreshCartOffcanvas();
+    } else {
+      showToast('Failed to add item.', false);
+    }
+  })
+  .catch(err => console.error('Error adding to cart:', err));
+}
+
+// ✅ On load: update cart badge count
+function updateCartBadge() {
+  fetch('/cart/offcanvas/')
+    .then(res => res.text())
+    .then(html => {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const itemCount = doc.querySelectorAll('.border-bottom').length;
+      const badge = document.querySelector('.nav-link .badge');
+      if (badge) badge.textContent = itemCount;
+      else if (itemCount > 0) {
+        const link = document.querySelector('[data-bs-target="#cartOffcanvas"]');
+        if (link) {
+          const span = document.createElement('span');
+          span.className = 'badge position-absolute rounded-pill bg-white ms-3';
+          span.style = 'color: #E25C26; top: 0; left: 21px; font-size: 9px;';
+          span.textContent = itemCount;
+          link.appendChild(span);
+        }
+      }
+    })
+    .catch(err => console.error('Error loading cart count:', err));
+}
+
+// ✅ Initialize everything on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  bindCartEvents();
+  bindRemoveEvents();
+  updateCartBadge();
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("searchInput");
+  const resultsList = document.getElementById("searchResults");
+
+  input.addEventListener("input", async () => {
+    const query = input.value.trim();
+    if (!query) {
+      resultsList.style.display = "none";
+      return;
+    }
+
+    const response = await fetch(`/services/search/?q=${encodeURIComponent(query)}`);
+    const data = await response.json();
+
+    resultsList.innerHTML = "";
+
+    if (data.results.length === 0) {
+      resultsList.innerHTML = `<li class="list-group-item text-muted">No results found</li>`;
+    } else {
+      data.results.forEach(item => {
+        const li = document.createElement("li");
+        li.classList.add("list-group-item", "list-group-item-action");
+        li.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center">
+            <span>${item.name}</span>
+            <small class="text-muted">${item.type === 'subcategory' ? 'Category' : 'Service'}</small>
+          </div>
+        `;
+        li.addEventListener("click", () => {
+          window.location.href = item.url;
+        });
+        resultsList.appendChild(li);
+      });
+    }
+
+    resultsList.style.display = "block";
+  });
+
+  // Hide dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!resultsList.contains(e.target) && e.target !== input) {
+      resultsList.style.display = "none";
+    }
+  });
+});
+</script>
+
+
+</body>
+
+</html>
