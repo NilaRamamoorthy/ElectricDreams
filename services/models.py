@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from core.models import HomePageImages
 class Category(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -93,11 +93,15 @@ class Review(models.Model):
     profile_image = models.ImageField(upload_to='reviews/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def get_profile_image_url(self):
-        """Return uploaded profile image or default static image."""
-        if self.profile_image:
-            return self.profile_image.url
-        return '/static/images/default-profile.png'  # 👈 change path if needed
+   
+def get_profile_image_url(self):
+    """Return uploaded profile image or default image from HomePageImages."""
+    if self.profile_image:
+        return self.profile_image.url
+    homepage_images = HomePageImages.objects.first()
+    if homepage_images:
+        return homepage_images.get_default_profile_url()
+    return '/static/images/default-profile.png'
 
-    def __str__(self):
-        return f"{self.user.username} - {self.service.name}"
+def __str__(self):
+    return f"{self.user.username} - {self.service.name}"

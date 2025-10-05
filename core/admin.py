@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SiteSetting, AboutSection, ServiceSection, CommitmentSection, FAQ, Service, Brand, EmergencyElectricianPage, CallbackRequest, WhyChooseImage 
+from .models import SiteSetting, HomePageImages, AboutSection, ServiceSection, CommitmentSection, FAQ, Service, Brand, EmergencyElectricianPage, CallbackRequest, WhyChooseImage 
 
 # Context_Processor
 admin.site.register(SiteSetting)
@@ -9,6 +9,7 @@ admin.site.register(FAQ)
 admin.site.register(Service)   
 admin.site.register(Brand)   
 admin.site.register(WhyChooseImage)   
+admin.site.register(HomePageImages)
 
 
 

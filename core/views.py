@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import AboutSection, ServiceSection, CommitmentSection, FAQ, WhyChooseImage,Brand
+from .models import AboutSection, ServiceSection, CommitmentSection, FAQ, WhyChooseImage,Brand, HomePageImages
 from services.models import Category, Review, SubCategory
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -18,6 +18,7 @@ def home(request):
     images = WhyChooseImage.objects.all()[:4]
     categories = Category.objects.prefetch_related("subcategories").all()
     reviews = Review.objects.select_related("service", "user").order_by("-created_at")[:4]
+    homepage_images = HomePageImages.objects.first()  # only one record
     return render(request, "core/home.html", {
         "faqs": faqs,
         "subcategories": subcategories,
@@ -25,6 +26,7 @@ def home(request):
         "why_choose_images": images,
         "categories": categories,
         "reviews": reviews,
+        'homepage_images': homepage_images
     })
 
 

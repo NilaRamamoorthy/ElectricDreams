@@ -48,6 +48,34 @@ class WhyChooseImage(models.Model):
     image = models.ImageField(upload_to="why_choose_us/")
 
 
+
+# core/models.py
+from django.db import models
+
+class HomePageImages(models.Model):
+    cloud_image = models.ImageField(upload_to='homepage/', blank=True, null=True)
+    electricians_image = models.ImageField(upload_to='homepage/', blank=True, null=True)
+    default_profile_image = models.ImageField(upload_to='homepage/', blank=True, null=True)
+
+    def __str__(self):
+        return "HomePage Images"
+
+    def get_cloud_image_url(self):
+        if self.cloud_image:
+            return self.cloud_image.url
+        return '/static/images/cloud.webp'
+
+    def get_electricians_image_url(self):
+        if self.electricians_image:
+            return self.electricians_image.url
+        return '/static/images/Employee.png'
+
+    def get_default_profile_url(self):
+        if self.default_profile_image:
+            return self.default_profile_image.url
+        return '/static/images/default-profile.png'
+
+
 #About
 class AboutSection(models.Model):
     title = models.CharField(max_length=255, default="About Electric Dreams")

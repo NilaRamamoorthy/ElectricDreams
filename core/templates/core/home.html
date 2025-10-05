@@ -145,11 +145,11 @@
 <section class="position-relative text-center my-5">
     <!-- Blue cloud background -->
     <div class="position-relative">
-    <img src="{% static 'images/cloud.webp' %}" alt="Cloud Background" class="img-fluid w-100" style="max-height: 500px; object-fit: contain;">
+    <img src="{{ homepage_images.get_cloud_image_url }}" alt="Cloud Background" class="img-fluid w-100" style="max-height: 500px; object-fit: contain;">
 
     <!-- Employees image -->
     <div class="position-absolute top-50 start-50 translate-middle">
-        <img src="{% static 'images/Employee.png' %}" alt="Employees" class="img-fluid" style="max-height: 350px;">
+        <img src="{{ homepage_images.get_electricians_image_url }}" alt="Employees" class="img-fluid" style="max-height: 350px;">
     </div>
 
     <!-- Overlay text -->
